@@ -31,6 +31,8 @@ class Game
         int getTurn();
 
         virtual ~Game();
+    protected:
+
     private:
         int totalMoves;
         bool debug;

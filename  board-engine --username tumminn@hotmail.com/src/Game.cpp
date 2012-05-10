@@ -33,7 +33,7 @@ int Game::evaluate()
 
 void Game::initilizeBoard()
 {
-    Board startingBoard(8,8);
+    Board startingBoard(3,3);
 
     Piece pawn0 = Piece("P",0);
     Piece pawn1 = Piece("P",1);
@@ -47,7 +47,7 @@ void Game::initilizeBoard()
                 std::pair<int,int> place(row,column);
                 startingBoard.addPieceToBoard(pawn1,place);
             }
-            else if(row == sizeof(startingBoard)-1)
+            else if(row == startingBoard.getRowSize()-1)
             {
                 std::pair<int,int> place(row,column);
                 startingBoard.addPieceToBoard(pawn0,place);
@@ -79,10 +79,9 @@ void Game::executeMove(Move move)
     Piece fromPiece = currentBoard.getPiece(move.getFromPair());
     Piece toPiece = currentBoard.getPiece(move.getToPair());
 
-
-    if(fromPiece.getOwner() != turn && fromPiece.getOwner() != -1)
+    if(fromPiece.getOwner() != turn || fromPiece.getOwner() == -1)
     {
-        throw GameException("Trying to move opponent piece\n");
+        throw GameException("Trying to move opponent piece or non-existing piece\n");
     }
     if(toPiece.getOwner() == turn)
     {
@@ -91,6 +90,7 @@ void Game::executeMove(Move move)
 
     moveEffect(move);
     currentBoard.executeMove(move);
+    gameBoards.push_back(currentBoard);
     ++totalMoves;
     changeTurn();
 }
@@ -133,17 +133,17 @@ std::string Game::display()
             Piece piece = currentBoard.getPiece(place);
             gameInfo << piece.getName();
         }
-        gameInfo << "\n";
+        gameInfo << '\n';
     }
 
-    gameInfo << turn;
+    gameInfo << turn << '\n';
     gameInfo << player1Pieces;
     gameInfo << ' ';
-    gameInfo << player2Pieces;
+    gameInfo << player2Pieces << '\n';
 
     if(debug)
     {
-        gameInfo << debugInfo();
+        gameInfo << debugInfo() << '\n';
     }
 
     return gameInfo.str();
@@ -151,6 +151,11 @@ std::string Game::display()
 
 void Game::undoMove()
 {
+    if(gameBoards.size() <= 1)
+    {
+        return;
+    }
+
     gameBoards.pop_back();
     --totalMoves;
     changeTurn();

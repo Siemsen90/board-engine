@@ -7,7 +7,7 @@
 class Piece
 {
     public:
-        Piece(std::string name = "", int owner = -1)
+        Piece(std::string name = ".", int owner = -1)
             :m_name(name),m_owner(owner)
             {};
         virtual ~Piece();

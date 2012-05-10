@@ -1,13 +1,23 @@
 #include <iostream>
 #include <vector>
+#include <map>
+
+#include "Game.h"
+#include "BreakThrough.h"
+#include "Move.h"
+#include "GameException.h"
 
 using namespace std;
 
 void play()
 {
-    String = allGames[2];
-    allGames[0] = "Breakthrough"
-    bool debug = false;
+    Game *current = NULL;
+    bool gameRunning = false;
+
+    Game *breakthrough = new BreakThrough();
+    std::map<int,Game*> listGames;
+    listGames[0] = breakthrough;
+
     cout << "Board-game \n" << "'list' to display the games list \n" << "'game n' instructs to play game number n \n"
     << " 'restart' restarts the game \n" << " 'legal' display legal moves \n"
     << "'make from_col from_row to_col to_row' \n" << "'retract' undos last move \n"
@@ -16,63 +26,96 @@ void play()
     << "'level[random|easy|medium|hard]' choose dificulty level \n" << "'quit' quits the program \n";
     cout << "> ";
     string word;
-    int number, counter = 0;
-    int num[4];
+    int number;
     while ( cin >> word) {
         if ( word == "quit" ) {
             break;
         }
         else if ( word == "list" ) {
-            for (i=0; i < allGames.size(); i++){
-                cout << " " << allGames[i]<< " "<< i << "\n";
+
+            for(std::map<int,Game*>::iterator it = listGames.begin(); it != listGames.end(); ++it)
+            {
+                cout << it->first << '\n';
             }
+
         }
-        else if ( word == "game" ) {
-            while ( cin >> number) {
-                if(number <= allGames.size()){
-                    if(number==0)
-                    {
-                        BreakThrough breakThrough;
-                    }
+        else if ( word == "game" )
+        {
+            cin >> number;
+
+            if(number < static_cast<int>(listGames.size()))
+            {
+                if(gameRunning)
+                {
+                    delete current;
                 }
-                else break;
+                current = listGames[number];
+                current->initilizeBoard();
+                gameRunning = true;
             }
         }
-        else if (word == "restart"){
+        else if (word == "restart")
+        {
+            if(gameRunning)
+            {
+                current->restart();
+            }
             //TODO restart the game
         }
-        else if (word == "legal"){
-            //TODO display legal moves
-        }
-        else if (word == "make"){
-            while ( cin >> number) {
-                if(counter < 4){
-                    num[counter]=number;
-                }
-                for(int i = 0; i<4;++i){cout<<num[i];}
-                //game.excecuteMove(num[0],num[1],num[2],num[3]);
-                break;
+        else if (word == "legal")
+        {
+            vector<Move> moveList = current->legalMoves();
+
+            for(int index = 0; index < static_cast<int>(moveList.size()); ++index)
+            {
+                cout << moveList[index] << '\n';
             }
-            //TODO get from_col, from_row
-            //to_col & to_row and make the move
         }
-        else if (word == "retract"){
+        else if (word == "make")
+        {
+            int fromX,fromY,toX,toY;
+            cin >> fromX;
+            cin >> fromY;
+            cin >> toX;
+            cin >> toY;
+
+            //cout << fromX << '#' << fromY << '-' << toX << '#' << toY << '\n';
+
+            try
+            {
+                Move move(fromX,fromY,toX,toY);
+                current->executeMove(move);
+            }
+            catch(GameException ex)
+            {
+                cout << ex.getMessage();
+            }
+        }
+        else if (word == "retract")
+        {
+            current->undoMove();
             //TODO undo
         }
-        else if (word == "display"){
+        else if (word == "display")
+        {
+            cout << current->display();
             //TODO display the board
         }
-        else if (word == "evaluate"){
-            //TODO call evaluate
+        else if (word == "evaluate")
+        {
+            cout << current->evaluate() << '\n';
         }
-        else if (word == "go"){
+        else if (word == "go")
+        {
             //TODO computer generates a move
         }
-        else if (word == "level"){
+        else if (word == "level")
+        {
             string level;
             while (cin >> level)
             {
-                if(level == "random"){
+                if(level == "random")
+                {
                     //TODO make level random
                 }
                 else if (word == "easy"){
@@ -87,6 +130,10 @@ void play()
             }
             //TODO get next string easy, med, etc...
         }
+        else if(word == "debug")
+        {
+            current->changeDebug();
+        }
         cout << "> ";
     }
 }
@@ -94,6 +141,5 @@ void play()
 int main()
 {
     play();
-    cout << "Hello world!" << endl;
     return 0;
 }
