@@ -6,12 +6,12 @@ Move::Move(int fromX,int fromY, int toX, int toY)
     to = std::pair<int,int>(toX,toY);
 }
 
-std::pair<int,int> Move::getFromPair()
+std::pair<int,int> Move::getFromPair() const
 {
     return from;
 }
 
-std::pair<int,int> Move::getToPair()
+std::pair<int,int> Move::getToPair() const
 {
     return to;
 }
@@ -20,4 +20,12 @@ std::pair<int,int> Move::getToPair()
 Move::~Move()
 {
     //dtor
+}
+
+std::ostream& operator<<(std::ostream& os, const Move& move)
+{
+    os  << "\t<"<< move.getFromPair().first << "," << move.getFromPair().second << ">";
+    os  << " -> ";
+    os  << "<"<< move.getToPair().first << "," << move.getToPair().second << ">";
+    return os;
 }
