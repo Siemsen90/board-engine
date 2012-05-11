@@ -1,0 +1,55 @@
+The Project we are working on is to create a board game software in C++ and have it follow object oriented design and proper C++ implementation principles.
+ First we will make a base API that can be extended to create many different games and then we will use that API and implement two games. 
+ The first one is the game Breakthrough and the second one is our own choice. Here we will strive on explaining our thoughts and how we are going to design 
+ the base API. Also we will list what environment, programming rules and documentation style we will use.
+
+	The first thing we realised we needed was a Game class which would include our most basic buisness logic. In that class we have functions like 
+	legalMoves (which is pure virtual and will be implemented for each game), evaluate, toString and moveEffect(which are virtual), isTerminalState, 
+	debugString, executeMove, victoryCheck and all that basic functunality that you will need in a game like this. First we thought that it would be 
+	best to have the board as a simple double array but as we kept thinking it through we realised we needed to have a special board class because of
+	the need to keep in memory old values of the board for the undo fucntionality. The game class has instead a vector of Board* who keeps the old 
+	instaces of the board. Then there is a Pieces class for each of the pieces and the board consists of a double array of pieces. The Minimax class 
+	uses the Game class to figure out the best move for a given player given the current state of the board. The minimax algorithm will have different 
+	difficulty (based on user input), the difficulty indicates how deep and what evaluation function to use. Then last but not least there is a 
+	GameException class which handles the exceptions for our games.
+	
+	UML MYND
+		
+
+	Many more improvements were made in the aftermath of the coding when the errors started to pile up and new and improved ideas came to mind. 
+	The biggest change is that a Move class was made, that was mostly for readability. Before the move class moves were kept in a pair that contained 
+	two pairs (toX, fromX, toY, fromY) but because that was hard to read and write we made a class for move that takes in the same variables and makes 
+	it easier to use. 
+	
+	The Board class had some minor changes like the initialiseBoard function was moved to the Game class, that was made so you dont need to instantiate 
+	a Board class paralell to the Game class. executeMove was implemented in both Game and Board. Then there where some helper functions added like 
+	removePiecesFromBoard, getPiecesForPlayer to help us encapsulate the code.
+	
+	The Game class had minor changes such as getter for the board and executeMove for more simple calls for the board in the main function. MoveEffect was 
+	taken out since we keep the boards history in vector and since we can just make undo with popping the last element of the vector thus not needing to 
+	implement moveEffect. InitaliseBoard and executeMove follows the NVI pattern and calls the virtual function doInitialiseBoard and doExecuteMove. 
+	doInitializeBoard, that by default makes an 8*8 board, but is overridden by derived classes. Because it is not intended for other games to manipulate 
+	the board but we want to have a default behaviour. DoExecuteMove is that way so you can get a default behaviour such as not going outside of the board 
+	and not going on another pieces but you can override it if you want another behaviour.
+	When implementation of the MiniMax class started it needed to have different difficulties, the difficulty is taken inside the Game class with a 
+	setter setDificulty.
+	
+
+
+	Decision was made to follow surtain programming rules and standards on the development of the project. Like which kind of documentation style will be used, naming of variables, classes and functions. For our documentation we will use Doxygen. Special measures were made to guarantee that the user typed in the right input and to write reusable code.
+	
+		Decision was made to use JavaDoc style to document our code.
+member list documentation is as follows:
+\begin{lstlisting}
+/** Brief description which ends at this dot.
+ * Details follow here
+ * @param variable: description of variable
+ * @return: description of return value
+ */
+\end{lstlisting}
+Documentation after declaration is as follows:
+\begin{lstlisting}
+int var; /**< Detailed description after the member */
+\end{lstlisting}
+
+\clearpage
