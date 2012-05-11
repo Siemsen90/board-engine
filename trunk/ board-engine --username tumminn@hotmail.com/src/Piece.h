@@ -32,8 +32,8 @@ public:
 
     /** \brief Getter for the name variable.
      *
-     * Getter for the variable string name, turns it to lower case and returns it.
-     * @return: name of piece, always a lower case.
+     * Getter for the variable string name.
+     * @return: name of piece.
      */
     std::string getName();
 
@@ -42,5 +42,7 @@ private:
     std::string m_name; /**< name of the piece, pawn, king etc. */
     int m_owner; /**< owner of the piece, 0 for player 1 and 1 for player 2. */
 };
+
+bool operator==(const Piece& lhs,const Piece& rhs);
 
 #endif // PIECE_H

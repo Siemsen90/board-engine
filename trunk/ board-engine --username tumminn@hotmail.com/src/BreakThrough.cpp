@@ -11,7 +11,7 @@ std::vector< Move > BreakThrough::legalMoves()
     {
         Piece piece = currentBoard.getPiece(myPieces[pieceIndex]);
 
-        if(piece.getName() == "p")
+        if(piece.getName() == "p" || piece.getName() == "P")
         {
             std::pair<int,int> pos = myPieces[pieceIndex];
             std::pair<int,int> newPos = myPieces[pieceIndex];
