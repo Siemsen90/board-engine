@@ -17,11 +17,11 @@ class Game
         Game(std::string name);
         virtual std::vector< Move > legalMoves() = 0;
         virtual int userDefinedEvaluation()=0;
+        virtual bool isTerminalState(int &state) = 0;
         virtual int evaluate();
 
         void executeMove(Move move);
         void initilizeBoard();
-        bool isTerminalState();
         void restart();
         std::string display();
         void undoMove();
@@ -42,7 +42,6 @@ class Game
         int totalMoves;
         bool debug;
         int turn;//Represents whose turn it is
-        virtual bool isUserDefinedTerminalState() = 0;
         virtual std::string debugInfo() = 0;
         virtual void doExecuteMove(Move move, Board &currentBoard);
         virtual Board doInitilizeBoard();

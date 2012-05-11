@@ -14,19 +14,6 @@ void MiniMax::run(Game *game)
 {
     std::vector<Move> moves = game->legalMoves();
 
-    if(game->getTotalMoves() == 100)
-    {
-        std::cout << "Player to move ties \n";
-        return;
-    }
-
-
-    if(moves.size() == 0)
-    {
-        std::cout << "No moves\n";
-        return;
-    }
-
      /* initialize random seed: */
     srand ( time(NULL) );
 
@@ -63,13 +50,14 @@ void MiniMax::run(Game *game)
         game->undoMove();
     }
 
+    std::cout << "\tmove " << bestMove << '\n';
     game->executeMove(bestMove);
-    std::cout << "move " << bestMove << '\n';
 }
 
 int MiniMax::miniMax(int depth,Game *game)
 {
-    if(game->isTerminalState() || depth <= 0)
+    int doNothing;
+    if(game->isTerminalState(doNothing) || depth <= 0)
     {
         if(game->getDifficulty() != 3)
         {

@@ -9,11 +9,11 @@ class ShorterBreakThrough: public Game
         ShorterBreakThrough(std::string name):Game::Game(name){};
 
         std::vector< Move > legalMoves();
-        bool isUserDefinedTerminalState();
         std::string debugInfo();
         Board doInitilizeBoard();
         void doExecuteMove(Move move, Board &currentBoard);
         int userDefinedEvaluation();
+        bool isTerminalState(int &state);
 
         virtual ~ShorterBreakThrough();
     protected:

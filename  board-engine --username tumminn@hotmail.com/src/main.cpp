@@ -11,6 +11,35 @@
 
 using namespace std;
 
+bool checkTerminalState(Game *current)
+{
+    int state = -1;
+
+    if(current->legalMoves().size() == 0)
+    {
+        std::cout << "No moves for player to move, thus player to move loses\n";
+        return true;
+    }
+
+    if(current->isTerminalState(state) == true && state != -1)
+    {
+        if(state == 2)
+        {
+            std::cout << "Player to move ties\n";
+        }
+        else if(state == current->getTurn())
+        {
+            std::cout << "Player to move wins\n";
+        }
+        else if(state != current->getTurn())
+        {
+            std::cout << "Player to move loses\n";
+        }
+        return true;
+    }
+    return false;
+}
+
 void play()
 {
     //Ætti game að hafa nafn?
@@ -39,9 +68,17 @@ void play()
     << "'level[random|easy|medium|hard]' choose dificulty level \n" << "'quit' quits the program \n";
     cout << "> ";
     string word;
-    int number;
     while ( cin >> word) {
-        if ( word == "quit" ) {
+
+        if(gameRunning == false && (word != "game" && word != "list" && word != "quit"))
+        {
+            cout << "You must run a game before using command " << word << endl;
+            cout << "\n> ";
+            continue;
+        }
+
+        if ( word == "quit" )
+        {
             break;
         }
         else if ( word == "list" )
@@ -54,6 +91,7 @@ void play()
         }
         else if ( word == "game" )
         {
+            int number;
             cin >> number;
 
             if(number < static_cast<int>(gameList.size()))
@@ -76,6 +114,7 @@ void play()
         }
         else if (word == "legal")
         {
+
             vector<Move> moveList = current->legalMoves();
 
             for(int index = 0; index < static_cast<int>(moveList.size()); ++index)
@@ -90,10 +129,15 @@ void play()
             cin >> fromY;
             cin >> toX;
             cin >> toY;
+            Move move(fromX,fromY,toX,toY);
+
+            if(checkTerminalState(current))
+            {
+                continue;
+            }
 
             try
             {
-                Move move(fromX,fromY,toX,toY);
                 current->executeMove(move);
             }
             catch(GameException ex)
@@ -115,8 +159,12 @@ void play()
         }
         else if (word == "go")
         {
+            if(checkTerminalState(current))
+            {
+                continue;
+            }
+
             search.run(current);
-            //TODO computer generates a move
         }
         else if (word == "level")
         {

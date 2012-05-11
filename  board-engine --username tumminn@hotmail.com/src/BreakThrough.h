@@ -10,10 +10,10 @@ class BreakThrough:public Game
         BreakThrough(std::string name):Game::Game(name){};
 
         std::vector< Move > legalMoves();
-        bool isUserDefinedTerminalState();
         std::string debugInfo();
         int userDefinedEvaluation();
         void doExecuteMove(Move move, Board &currentBoard);
+        bool isTerminalState(int &state);
 
         virtual ~BreakThrough();
     protected:
