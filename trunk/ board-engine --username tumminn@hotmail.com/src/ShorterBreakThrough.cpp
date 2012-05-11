@@ -2,7 +2,7 @@
 
 Board ShorterBreakThrough::doInitilizeBoard()
 {
-    Board startingBoard(3,3);
+    Board startingBoard(4,3);
 
     Piece pawn0 = Piece("P",0);
     Piece pawn1 = Piece("P",1);
