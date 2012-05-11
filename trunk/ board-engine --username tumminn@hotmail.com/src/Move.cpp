@@ -30,11 +30,11 @@ std::ostream& operator<<(std::ostream& os, const Move& move)
     return os;
 }
 
-/*bool operator==(const Move& lhs, const Move& rhs)
+bool operator==(const Move& lhs, const Move& rhs)
 {
-    if(lhs.getFromPair() == rhs.getFromPair && lhs.getToPair() == rhs.getToPair)
+    if(lhs.getFromPair() == rhs.getFromPair() && lhs.getToPair() == rhs.getToPair())
     {
         return true;
     }
     return false;
-}*/
+}

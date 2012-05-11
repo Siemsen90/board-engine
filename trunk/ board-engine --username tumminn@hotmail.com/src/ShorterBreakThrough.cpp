@@ -34,7 +34,7 @@ void ShorterBreakThrough::doExecuteMove(Move move, Board &currentBoard)
 
     for(int index = 0; index < static_cast<int>(moves.size()); ++index)
     {
-        if(moves[index].getFromPair() == move.getFromPair() && moves[index].getToPair() == move.getToPair())
+        if(moves[index] == move)
         {
             legal = true;
         }
