@@ -92,9 +92,10 @@ void play()
 
             if(number < static_cast<int>(gameList.size()))
             {
-                if(gameRunning)
+                if(current == NULL)
                 {
                     delete current;
+                    current = NULL;
                 }
                 current = gameList[number];
                 current->initilizeBoard();
