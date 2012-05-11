@@ -178,8 +178,3 @@ int ShorterBreakThrough::userDefinedEvaluation()
 {
     return evaluate();
 }
-
-ShorterBreakThrough::~ShorterBreakThrough()
-{
-    //dtor
-}

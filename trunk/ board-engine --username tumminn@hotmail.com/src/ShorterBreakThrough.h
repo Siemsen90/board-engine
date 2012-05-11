@@ -14,8 +14,6 @@ class ShorterBreakThrough: public Game
         void doExecuteMove(Move move, Board &currentBoard);
         int userDefinedEvaluation();
         bool isTerminalState(int &state);
-
-        virtual ~ShorterBreakThrough();
     protected:
     private:
 };

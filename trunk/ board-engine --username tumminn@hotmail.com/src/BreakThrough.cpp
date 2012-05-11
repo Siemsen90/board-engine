@@ -213,8 +213,3 @@ bool BreakThrough::isTerminalState(int &state)
 
     return false;
 }
-
-BreakThrough::~BreakThrough()
-{
-    //dtor
-}
