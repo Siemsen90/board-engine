@@ -4,6 +4,9 @@ Game::Game(std::string name)
 {
     this->name = name;
     difficulty = 0;
+    turn = 0;
+    totalMoves = 0;
+    debug = false;
 }
 
 void Game::changeTurn()
@@ -124,16 +127,7 @@ std::string Game::display()
     int player1Pieces = currentBoard.getPieceForPlayer(0).size();
     int player2Pieces = currentBoard.getPieceForPlayer(1).size();
 
-    for(int row = 0; row < currentBoard.getRowSize(); ++row)
-    {
-        for(int column = 0; column < currentBoard.getColumnSize(); ++column)
-        {
-            std::pair<int,int> place(row,column);
-            Piece piece = currentBoard.getPiece(place);
-            gameInfo << piece.getName();
-        }
-        gameInfo << '\n';
-    }
+    gameInfo << currentBoard;
 
     gameInfo << turn << '\n';
     gameInfo << player1Pieces;
