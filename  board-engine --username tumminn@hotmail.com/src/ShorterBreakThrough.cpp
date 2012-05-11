@@ -5,7 +5,7 @@ Board ShorterBreakThrough::doInitilizeBoard()
     Board startingBoard(4,3);
 
     Piece pawn0 = Piece("P",0);
-    Piece pawn1 = Piece("P",1);
+    Piece pawn1 = Piece("p",1);
 
     for(int row = 0; row < startingBoard.getRowSize(); ++row)
     {
@@ -60,7 +60,7 @@ std::vector< Move > ShorterBreakThrough::legalMoves()
     {
         Piece piece = currentBoard.getPiece(myPieces[pieceIndex]);
 
-        if(piece.getName() == "p")
+        if(piece.getName() == "p" || piece.getName() == "P")
         {
             std::pair<int,int> pos = myPieces[pieceIndex];
             std::pair<int,int> newPos = myPieces[pieceIndex];

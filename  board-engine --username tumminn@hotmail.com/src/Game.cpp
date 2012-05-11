@@ -42,7 +42,7 @@ Board Game::doInitilizeBoard()
     Board startingBoard(8,8);
 
     Piece pawn0 = Piece("P",0);
-    Piece pawn1 = Piece("P",1);
+    Piece pawn1 = Piece("p",1);
 
     for(int row = 0; row < startingBoard.getRowSize(); ++row)
     {
