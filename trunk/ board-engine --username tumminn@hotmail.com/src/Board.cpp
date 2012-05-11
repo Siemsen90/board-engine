@@ -12,7 +12,7 @@ Board::Board(int n, int m)
     }
 }
 
-void Board::executeMove(Move move)
+void Board::movePiece(Move move)
 {
     board[move.getToPair().first][move.getToPair().second] = board[move.getFromPair().first][move.getFromPair().second];
     board[move.getFromPair().first][move.getFromPair().second] = Piece();

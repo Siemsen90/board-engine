@@ -29,3 +29,12 @@ std::ostream& operator<<(std::ostream& os, const Move& move)
     os  << "<"<< move.getToPair().first << "," << move.getToPair().second << ">";
     return os;
 }
+
+/*bool operator==(const Move& lhs, const Move& rhs)
+{
+    if(lhs.getFromPair() == rhs.getFromPair && lhs.getToPair() == rhs.getToPair)
+    {
+        return true;
+    }
+    return false;
+}*/
