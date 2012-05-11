@@ -2,7 +2,7 @@
 
 Board ShorterBreakThrough::doInitilizeBoard()
 {
-    Board startingBoard(4,3);
+    Board startingBoard(3,3);
 
     Piece pawn0 = Piece("P",0);
     Piece pawn1 = Piece("P",1);
@@ -67,14 +67,18 @@ std::vector< Move > ShorterBreakThrough::legalMoves()
 
             std::vector< std::pair<int,int> > availableMoves;
 
-            availableMoves.push_back(std::pair<int,int> (pos.first-1,pos.second));
-            availableMoves.push_back(std::pair<int,int>(pos.first,pos.second-1));
-            availableMoves.push_back(std::pair<int,int>(pos.first-1,pos.second-1));
-            availableMoves.push_back(std::pair<int,int>(pos.first+1,pos.second));
-            availableMoves.push_back(std::pair<int,int>(pos.first,pos.second+1));
-            availableMoves.push_back(std::pair<int,int>(pos.first+1,pos.second+1));
-            availableMoves.push_back(std::pair<int,int>(pos.first-1,pos.second+1));
-            availableMoves.push_back(std::pair<int,int>(pos.first+1,pos.second-1));
+            if(piece.getOwner() == 0)
+            {
+                availableMoves.push_back(std::pair<int,int> (pos.first-1,pos.second));
+                availableMoves.push_back(std::pair<int,int>(pos.first-1,pos.second-1));
+                availableMoves.push_back(std::pair<int,int>(pos.first-1,pos.second+1));
+            }
+            else if(piece.getOwner() == 1)
+            {
+                availableMoves.push_back(std::pair<int,int>(pos.first+1,pos.second));
+                availableMoves.push_back(std::pair<int,int>(pos.first+1,pos.second+1));
+                availableMoves.push_back(std::pair<int,int>(pos.first+1,pos.second-1));
+            }
 
             for(int index = 0; index < static_cast<int>(availableMoves.size()); ++index)
             {
@@ -94,14 +98,25 @@ std::vector< Move > ShorterBreakThrough::legalMoves()
 
                 if(newPiece.getOwner() != -1)
                 {
-                    if((newPos.first == pos.first+1 && newPos.second == pos.second+1)
-                            || (newPos.first == pos.first-1 && newPos.second == pos.second+1)
-                            || (newPos.first == pos.first-1 && newPos.second == pos.second-1)
-                            || (newPos.first == pos.first+1 && newPos.second == pos.second-1))
+                    if(piece.getOwner() == 0)
                     {
-                        Move move(pos.first,pos.second,newPos.first,newPos.second);
-                        moves.push_back(move);
+                        if((newPos.first == pos.first-1 && newPos.second == pos.second+1)
+                            || (newPos.first == pos.first-1 && newPos.second == pos.second-1))
+                        {
+                            Move move(pos.first,pos.second,newPos.first,newPos.second);
+                            moves.push_back(move);
+                        }
                     }
+                    else if(piece.getOwner() == 1)
+                    {
+                        if((newPos.first == pos.first+1 && newPos.second == pos.second+1)
+                            || (newPos.first == pos.first+1 && newPos.second == pos.second-1))
+                        {
+                            Move move(pos.first,pos.second,newPos.first,newPos.second);
+                            moves.push_back(move);
+                        }
+                    }
+
                 }
                 else if(newPiece.getOwner() == -1)
                 {
@@ -115,22 +130,36 @@ std::vector< Move > ShorterBreakThrough::legalMoves()
     return moves;
 }
 
-bool ShorterBreakThrough::isUserDefinedTerminalState()
+bool ShorterBreakThrough::isTerminalState(int &state)
 {
+    state = -1;
+    if(getTotalMoves() == 100)
+    {
+        state = 2;//2 means draw
+        return true;
+    }
+
     Board currentBoard = getCurrentBoard();
 
     for(int multi = 0; multi <= 1; ++multi)
     {
-        int player = multi;
-
         for(int column = 0; column < currentBoard.getColumnSize(); ++column)
         {
             std::pair<int,int> position(multi*(currentBoard.getRowSize()-1),column);
             Piece piece = currentBoard.getPiece(position);
 
-            if(piece.getOwner() != -1 && piece.getOwner() == player)
+            if(piece.getOwner() != -1)
             {
-                return true;
+                if(piece.getOwner() == 0 && position.first == 0)
+                {
+                    state = 0;
+                    return true;
+                }
+                else if(piece.getOwner() == 1 && position.first == currentBoard.getRowSize()-1)
+                {
+                    state = 1;
+                    return true;
+                }
             }
         }
     }
@@ -141,8 +170,7 @@ bool ShorterBreakThrough::isUserDefinedTerminalState()
 std::string ShorterBreakThrough::debugInfo()
 {
     std::ostringstream info;
-    info << "Terminal state: ";
-    info << isTerminalState();
+    info << "No debug info";
     return  info.str();
 }
 

@@ -115,16 +115,6 @@ void Game::restart()
     turn = 0;
 }
 
-bool Game::isTerminalState()
-{
-    if(totalMoves == 100)
-    {
-        return true;
-    }
-
-    return isUserDefinedTerminalState();
-}
-
 std::string Game::display()
 {
     std::ostringstream gameInfo;
