@@ -22,4 +22,6 @@ class Move
 
 std::ostream& operator<<(std::ostream& os, const Move& move);
 
+//bool operator==(const Move& lhs,const Move& rhs);
+
 #endif // MOVE_H

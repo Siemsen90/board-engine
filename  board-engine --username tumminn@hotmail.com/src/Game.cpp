@@ -1,8 +1,9 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game(std::string name)
 {
-
+    this->name = name;
+    difficulty = 0;
 }
 
 void Game::changeTurn()
@@ -33,7 +34,12 @@ int Game::evaluate()
 
 void Game::initilizeBoard()
 {
-    Board startingBoard(3,3);
+    gameBoards.push_back(doInitilizeBoard());
+}
+
+Board Game::doInitilizeBoard()
+{
+    Board startingBoard(8,8);
 
     Piece pawn0 = Piece("P",0);
     Piece pawn1 = Piece("P",1);
@@ -54,16 +60,23 @@ void Game::initilizeBoard()
             }
         }
     }
-
-    gameBoards.push_back(startingBoard);
+    return startingBoard;
 }
-
-
 
 void Game::executeMove(Move move)
 {
     Board currentBoard = getCurrentBoard();
 
+    doExecuteMove(move,currentBoard);
+
+    gameBoards.push_back(currentBoard);
+    ++totalMoves;
+    changeTurn();
+}
+
+//You modify the currentBoard which will become the new board that you play off
+void Game::doExecuteMove(Move move, Board &currentBoard)
+{
     std::pair<int,int> from = move.getFromPair();
     std::pair<int,int> to = move.getToPair();
 
@@ -79,20 +92,16 @@ void Game::executeMove(Move move)
     Piece fromPiece = currentBoard.getPiece(move.getFromPair());
     Piece toPiece = currentBoard.getPiece(move.getToPair());
 
-    if(fromPiece.getOwner() != turn || fromPiece.getOwner() == -1)
+    if(fromPiece.getOwner() != getTurn() || fromPiece.getOwner() == -1)
     {
         throw GameException("Trying to move opponent piece or non-existing piece\n");
     }
-    if(toPiece.getOwner() == turn)
+    if(toPiece.getOwner() == getTurn())
     {
         throw GameException("Trying to capture your own piece\n");
     }
 
-    moveEffect(move);
-    currentBoard.executeMove(move);
-    gameBoards.push_back(currentBoard);
-    ++totalMoves;
-    changeTurn();
+    currentBoard.movePiece(move);//Basic implementation, no side effects
 }
 
 void Game::restart()
@@ -176,9 +185,26 @@ int Game::getTurn()
     return turn;
 }
 
-Game::~Game()
+int Game::getTotalMoves()
 {
-    //dtor
+    return totalMoves;
 }
 
+void Game::setDifficulty(int diff)
+{
+    difficulty = diff;
+}
 
+int Game::getDifficulty()
+{
+    return difficulty;
+}
+
+std::string Game::getName()
+{
+    return name;
+}
+
+Game::~Game()
+{
+}

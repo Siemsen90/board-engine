@@ -7,12 +7,13 @@
 class BreakThrough:public Game
 {
     public:
-        BreakThrough();
+        BreakThrough(std::string name):Game::Game(name){};
 
         std::vector< Move > legalMoves();
-        void moveEffect(Move move);
         bool isUserDefinedTerminalState();
         std::string debugInfo();
+        int userDefinedEvaluation();
+        void doExecuteMove(Move move, Board &currentBoard);
 
         virtual ~BreakThrough();
     protected:

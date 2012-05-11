@@ -1,6 +1,55 @@
-#include "BreakThrough.h"
+#include "ShorterBreakThrough.h"
 
-std::vector< Move > BreakThrough::legalMoves()
+Board ShorterBreakThrough::doInitilizeBoard()
+{
+    Board startingBoard(4,3);
+
+    Piece pawn0 = Piece("P",0);
+    Piece pawn1 = Piece("P",1);
+
+    for(int row = 0; row < startingBoard.getRowSize(); ++row)
+    {
+        for(int column = 0; column < startingBoard.getColumnSize(); ++column)
+        {
+            if(row == 0)
+            {
+                std::pair<int,int> place(row,column);
+                startingBoard.addPieceToBoard(pawn1,place);
+            }
+            else if(row == startingBoard.getRowSize()-1)
+            {
+                std::pair<int,int> place(row,column);
+                startingBoard.addPieceToBoard(pawn0,place);
+            }
+        }
+    }
+    return startingBoard;
+}
+
+//This is shorter to demonstrate you can  use the legalMoves function to check for validity of move, however you give up control for finding what exactly you did wrong
+void ShorterBreakThrough::doExecuteMove(Move move, Board &currentBoard)
+{
+    std::vector<Move> moves = legalMoves();
+    bool legal = false;
+
+    for(int index = 0; index < static_cast<int>(moves.size()); ++index)
+    {
+        if(moves[index].getFromPair() == move.getFromPair() && moves[index].getToPair() == move.getToPair())
+        {
+            legal = true;
+        }
+    }
+
+    if(!legal)
+    {
+        throw GameException("Illegal move\n");
+    }
+
+    currentBoard.movePiece(move);//Basic implementation, no side effects
+}
+
+
+std::vector< Move > ShorterBreakThrough::legalMoves()
 {
     std::vector<Move> moves;
 
@@ -66,7 +115,7 @@ std::vector< Move > BreakThrough::legalMoves()
     return moves;
 }
 
-bool BreakThrough::isUserDefinedTerminalState()
+bool ShorterBreakThrough::isUserDefinedTerminalState()
 {
     Board currentBoard = getCurrentBoard();
 
@@ -89,47 +138,7 @@ bool BreakThrough::isUserDefinedTerminalState()
     return false;
 }
 
-void BreakThrough::doExecuteMove(Move move, Board &currentBoard)
-{
-    std::pair<int,int> from = move.getFromPair();
-    std::pair<int,int> to = move.getToPair();
-
-    if(from.first >= currentBoard.getRowSize() || from.second >= currentBoard.getColumnSize() || from.first < 0 || from.second < 0)
-    {
-        throw GameException("Out Of Bounds, for from piece\n");
-    }
-    else if(to.first >= currentBoard.getRowSize() || to.second >= currentBoard.getColumnSize() || to.first < 0 || to.second < 0)
-    {
-        throw GameException("Out Of Bounds, for to piece\n");
-    }
-
-    Piece fromPiece = currentBoard.getPiece(move.getFromPair());
-    Piece toPiece = currentBoard.getPiece(move.getToPair());
-
-    if((move.getToPair().first == move.getFromPair().first+1 && move.getToPair().second == move.getFromPair().second)
-                            || (move.getToPair().first == move.getFromPair().first-1 && move.getToPair().second == move.getFromPair().second)
-                            || (move.getToPair().first == move.getFromPair().first && move.getToPair().second == move.getFromPair().second-1)
-                            || (move.getToPair().first == move.getFromPair().first && move.getToPair().second == move.getFromPair().second+1))
-    {
-        if(toPiece.getOwner() != -1)
-        {
-            throw GameException("Trying to kill a piece illegaly\n");
-        }
-    }
-
-    if(fromPiece.getOwner() != getTurn() || fromPiece.getOwner() == -1)
-    {
-        throw GameException("Trying to move opponent piece or non-existing piece\n");
-    }
-    if(toPiece.getOwner() == getTurn())
-    {
-        throw GameException("Trying to capture your own piece\n");
-    }
-
-    currentBoard.movePiece(move);//Basic implementation, no side effects
-}
-
-std::string BreakThrough::debugInfo()
+std::string ShorterBreakThrough::debugInfo()
 {
     std::ostringstream info;
     info << "Terminal state: ";
@@ -137,12 +146,12 @@ std::string BreakThrough::debugInfo()
     return  info.str();
 }
 
-int BreakThrough::userDefinedEvaluation()
+int ShorterBreakThrough::userDefinedEvaluation()
 {
     return evaluate();
 }
 
-BreakThrough::~BreakThrough()
+ShorterBreakThrough::~ShorterBreakThrough()
 {
     //dtor
 }

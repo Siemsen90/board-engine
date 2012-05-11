@@ -12,7 +12,7 @@ class Board
     public:
         Board(int n, int m);
         void addPieceToBoard(Piece piece, std::pair<int, int> move);
-        void executeMove(Move move);
+        void movePiece(Move move);
         virtual ~Board();
 
         Piece getPiece(std::pair<int, int> move);

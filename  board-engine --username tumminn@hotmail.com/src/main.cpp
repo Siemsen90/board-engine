@@ -4,19 +4,32 @@
 
 #include "Game.h"
 #include "BreakThrough.h"
+#include "ShorterBreakThrough.h"
 #include "Move.h"
 #include "GameException.h"
+#include "MiniMax.h"
 
 using namespace std;
 
 void play()
 {
+    //Ætti game að hafa nafn?
     Game *current = NULL;
     bool gameRunning = false;
 
-    Game *breakthrough = new BreakThrough();
-    std::map<int,Game*> listGames;
-    listGames[0] = breakthrough;
+    Game *breakthrough = new BreakThrough("Breakthrough");
+    Game *shorterBreakthrough = new ShorterBreakThrough("ShorterBreakthrough");
+    /*std::map<int,string> listGames;
+    listGames[0] = "Breakthrough";
+    listGames[1] = "ShorterBreakthrough";*/
+
+    MiniMax search;
+
+    vector<Game*> gameList;
+    gameList.push_back(breakthrough);
+    gameList.push_back(shorterBreakthrough);
+
+
 
     cout << "Board-game \n" << "'list' to display the games list \n" << "'game n' instructs to play game number n \n"
     << " 'restart' restarts the game \n" << " 'legal' display legal moves \n"
@@ -31,11 +44,11 @@ void play()
         if ( word == "quit" ) {
             break;
         }
-        else if ( word == "list" ) {
-
-            for(std::map<int,Game*>::iterator it = listGames.begin(); it != listGames.end(); ++it)
+        else if ( word == "list" )
+        {
+            for(int index = 0; index < static_cast<int>(gameList.size()); ++index)
             {
-                cout << it->first << '\n';
+                cout << gameList[index]->getName() << '\n';
             }
 
         }
@@ -43,13 +56,13 @@ void play()
         {
             cin >> number;
 
-            if(number < static_cast<int>(listGames.size()))
+            if(number < static_cast<int>(gameList.size()))
             {
                 if(gameRunning)
                 {
                     delete current;
                 }
-                current = listGames[number];
+                current = gameList[number];
                 current->initilizeBoard();
                 gameRunning = true;
             }
@@ -60,7 +73,6 @@ void play()
             {
                 current->restart();
             }
-            //TODO restart the game
         }
         else if (word == "legal")
         {
@@ -79,8 +91,6 @@ void play()
             cin >> toX;
             cin >> toY;
 
-            //cout << fromX << '#' << fromY << '-' << toX << '#' << toY << '\n';
-
             try
             {
                 Move move(fromX,fromY,toX,toY);
@@ -94,12 +104,10 @@ void play()
         else if (word == "retract")
         {
             current->undoMove();
-            //TODO undo
         }
         else if (word == "display")
         {
             cout << current->display();
-            //TODO display the board
         }
         else if (word == "evaluate")
         {
@@ -107,34 +115,37 @@ void play()
         }
         else if (word == "go")
         {
+            search.run(current);
             //TODO computer generates a move
         }
         else if (word == "level")
         {
             string level;
-            while (cin >> level)
+            cin >> level;
+
+            if(level == "random")
             {
-                if(level == "random")
-                {
-                    //TODO make level random
-                }
-                else if (word == "easy"){
-                    //TODO easy
-                }
-                else if (word == "medium"){
-                    //TODO medium
-                }
-                else if (word == "hard"){
-                    //TODO hard
-                }
+                current->setDifficulty(0);
             }
-            //TODO get next string easy, med, etc...
+            else if (level == "easy")
+            {
+                current->setDifficulty(1);
+            }
+            else if (level == "medium")
+            {
+                current->setDifficulty(2);
+            }
+            else if (level == "hard")
+            {
+                current->setDifficulty(3);
+            }
+
         }
         else if(word == "debug")
         {
             current->changeDebug();
         }
-        cout << "> ";
+        cout << "\n> ";
     }
 }
 

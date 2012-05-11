@@ -14,12 +14,13 @@
 class Game
 {
     public:
-        Game();
+        Game(std::string name);
         virtual std::vector< Move > legalMoves() = 0;
+        virtual int userDefinedEvaluation()=0;
         virtual int evaluate();
-        virtual void executeMove(Move move);
-        virtual void initilizeBoard();
 
+        void executeMove(Move move);
+        void initilizeBoard();
         bool isTerminalState();
         void restart();
         std::string display();
@@ -29,18 +30,25 @@ class Game
 
         Board getCurrentBoard();
         int getTurn();
+        int getTotalMoves();
+
+        void setDifficulty(int diff);
+        int getDifficulty();
+
+        std::string getName();
 
         virtual ~Game();
-    protected:
-
     private:
         int totalMoves;
         bool debug;
         int turn;//Represents whose turn it is
-        virtual void moveEffect(Move move) = 0;
         virtual bool isUserDefinedTerminalState() = 0;
         virtual std::string debugInfo() = 0;
+        virtual void doExecuteMove(Move move, Board &currentBoard);
+        virtual Board doInitilizeBoard();
         std::vector<Board> gameBoards;
+        int difficulty;
+        std::string name;
 };
 
 #endif // GAME_H
