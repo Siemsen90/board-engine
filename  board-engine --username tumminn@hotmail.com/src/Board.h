@@ -52,21 +52,21 @@ public:
       * @param move pair of integers that denotes the place on the board where the piece is.
       * @return returns a pice
       */
-    Piece getPiece(std::pair<int, int> move);
+    Piece getPiece(std::pair<int, int> move) const;
 
     /** \brief gets the row size
       *
       * returns the number of rows in the board
       * @return integer value which denotes how many rows the board has
       */
-    int getRowSize();
+    int getRowSize() const;
 
     /** \brief gets the column size
       *
       * returns the number of columns in the board
       * @return integer value which denotes how many columns the board has
       */
-    int getColumnSize();
+    int getColumnSize() const;
 
     /** \brief finds all pieces for a given player
       *
@@ -81,5 +81,8 @@ private:
     int row; /**< integer denoting how many rows there are on the board */
     int column; /**< integer denoting how many columns there are on the board */
 };
+
+//A simple overloaded << to print out the board
+std::ostream& operator<<(std::ostream& os, const Board& board);
 
 #endif // BOARD_H

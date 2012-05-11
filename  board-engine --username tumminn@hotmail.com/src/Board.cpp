@@ -23,17 +23,17 @@ void Board::addPieceToBoard(Piece piece, std::pair<int, int> move)
     board[move.first][move.second] = piece;
 }
 
-int Board::getRowSize()
+int Board::getRowSize() const
 {
     return row;
 }
 
-int Board::getColumnSize()
+int Board::getColumnSize() const
 {
     return column;
 }
 
-Piece Board::getPiece(std::pair<int, int> move)
+Piece Board::getPiece(std::pair<int, int> move) const
 {
     return board[move.first][move.second];
 }
@@ -60,4 +60,19 @@ std::vector< std::pair<int,int> > Board::getPieceForPlayer(int player)
 void Board::removePieceFromBoard(std::pair<int,int> position)
 {
     board[position.first][position.second] = Piece();
+}
+
+std::ostream& operator<<(std::ostream& os, const Board& board)
+{
+    for(int row = 0; row < board.getRowSize(); ++row)
+    {
+        for(int column = 0; column < board.getColumnSize(); ++column)
+        {
+            std::pair<int,int> place(row,column);
+            Piece piece = board.getPiece(place);
+            os << piece.getName();
+        }
+        os << '\n';
+    }
+    return os;
 }
