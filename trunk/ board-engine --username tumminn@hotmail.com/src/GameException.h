@@ -11,10 +11,10 @@ class GameException
 {
 public:
 
-    /** \brief The piece constructor.
+    /** \brief The GameException constructor.
      *
-     * Constructs an error message
-     * @param msg string argument that is an error message that follows the exception
+     * Constructs an error message from a string parameter
+     * @param msg string argument that is an error message that accompanies the exception
      */
     GameException(const std::string& msg);
     ~GameException( ) {}
@@ -22,7 +22,7 @@ public:
     /** \brief Getter for the error message
      *
      * Normal getter function which returns a string variable.
-     * @return: error message
+     * @return: string representing the error message
      */
     std::string getMessage( ) const;
 private:

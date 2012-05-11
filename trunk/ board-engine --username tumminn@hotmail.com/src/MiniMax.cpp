@@ -1,15 +1,5 @@
 #include "MiniMax.h"
 
-MiniMax::MiniMax()
-{
-    //ctor
-}
-
-MiniMax::~MiniMax()
-{
-    //dtor
-}
-
 void MiniMax::run(Game *game)
 {
     std::vector<Move> moves = game->legalMoves();

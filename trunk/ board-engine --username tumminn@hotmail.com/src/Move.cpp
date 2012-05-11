@@ -16,12 +16,6 @@ std::pair<int,int> Move::getToPair() const
     return to;
 }
 
-
-Move::~Move()
-{
-    //dtor
-}
-
 std::ostream& operator<<(std::ostream& os, const Move& move)
 {
     os  << "\t<"<< move.getFromPair().first << "," << move.getFromPair().second << ">";

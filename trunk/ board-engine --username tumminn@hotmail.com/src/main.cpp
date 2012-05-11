@@ -11,6 +11,7 @@
 
 using namespace std;
 
+//This functions is used to represent what values represent and whether a game has reached its end
 bool checkTerminalState(Game *current)
 {
     int state = -1;
@@ -55,11 +56,11 @@ void play()
     gameList.push_back(shorterBreakthrough);
 
     cout << "Board-game \n" << "'list' to display the games list \n" << "'game n' instructs to play game number n \n"
-    << " 'restart' restarts the game \n" << " 'legal' display legal moves \n"
+    << "'restart' restarts the game \n" << "'legal' display legal moves \n"
     << "'make from_col from_row to_col to_row' \n" << "'retract' undos last move \n"
-    << "'display' shows the board 0 is player 1(uppercase) and 1 is player 2(lowercase), last lines shows piece-count 1 first then 2\n"
+    << "'display' shows the board 0 is player 1(uppercase) and 1 is player 2(lowercase), last lines shows piece-count for player 1 first then player 2\n"
     << "'evaluate' evaluates from the current board state \n" << "'go' computer makes a move\n"
-    << "'level[random|easy|medium|hard]' choose dificulty level \n" << "'quit' quits the program \n";
+    << "'level [random|easy|medium|hard]' choose dificulty level \n" << "'quit' quits the program \n";
     cout << "> ";
 
     string word;
@@ -67,7 +68,7 @@ void play()
     {
         if(gameRunning == false && (word != "game" && word != "list" && word != "quit"))
         {
-            cout << "You must run a game before using command " << word << endl;
+            cout << "You must run a game before using the command " << word << endl;
             cout << "\n> ";
             continue;
         }
@@ -99,6 +100,10 @@ void play()
                 current->initilizeBoard();
                 gameRunning = true;
             }
+            else
+            {
+                cout << "Not a legal game\n";
+            }
         }
         else if (word == "restart")
         {
@@ -128,6 +133,7 @@ void play()
             if(checkTerminalState(current))
             {
                 continue;
+                cout << "\n> ";
             }
 
             try
@@ -155,6 +161,7 @@ void play()
         {
             if(checkTerminalState(current))
             {
+                cout << "\n> ";
                 continue;
             }
 
