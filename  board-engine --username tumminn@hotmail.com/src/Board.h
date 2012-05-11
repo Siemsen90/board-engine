@@ -9,16 +9,16 @@
 
 /** \brief The Board class
  *
- * The Board class has a vector of a vector of pieces and an integer value row and column.
- * That denotes the size of the board and which pieces are on it. The Game class calls the
- * Board class and initializes the board.
+ * The Board class has a vector of vectors of Pieces and an integer value row and column.
+ * It denotes the size of the board and which pieces are on it.
+ * The Game class calls the Board class methods to initialize the board.
  */
 class Board
 {
 public:
     /** \brief The Board constructor
       *
-      * Creates the board of size n*m and initializes that with the default pieces
+      * Creates a board of size n*m and initializes it with the default pieces
       * @param n integer value that denotes the rows on the board
       * @param m integer value that denotes the columns on the board
       */
@@ -26,33 +26,29 @@ public:
 
     /** \brief Moves a pice from one square to another
       *
-      * takes an instance of a move and executes it on the board. Move has a pair of
-      * x-y coordinates and movePiece finds the from coordinates on the board and if
-      * there is a piece there it moves it to the to-coordinates. and replaces the old
-      * old square with a default peace(empty square).
-      * @param move has a pair of x-y coordinates from where the piece is and to put him
+      * Takes in a Move object and uses it to uppdate the board using the from pair and to pair inside the Move object.
+      * @param move has two pairs of x-y coordinates from where the piece is and where the piece should go
       */
     void movePiece(Move move);
 
-    /** \brief add pice to a square on the board
+    /** \brief Add pice to a square on the board
       *
-      * Takes in a piece and a place on the board. puts the piece on the board or in
-      * the board vector in the place where the move is.
+      * Takes in a Piece object and a places it on the board corresponding to the Move object.
       * @param piece the piece that is to be placed on the board
       * @param move pair of integers that denotes the place on the board
       */
     void addPieceToBoard(Piece piece, std::pair<int, int> move);
 
-    /** \brief removes a pice on a square on the board
+    /** \brief removes a piece from the board
       *
       * Finds a piece and a removes it from the board and replaces it with an empty piece.
       * @param move pair of integers that denotes the place on the board where the piece is being deleted
       */
     void removePieceFromBoard(std::pair<int,int> position);
 
-    /** \brief gets a pice on a square on the board
+    /** \brief gets a pice on a particular square on the board
       *
-      * Finds a piece and a returns it from the board.
+      * Finds a piece and a returns it from the board using a pair of ints.
       * @param move pair of integers that denotes the place on the board where the piece is.
       * @return returns a pice
       */
@@ -60,31 +56,28 @@ public:
 
     /** \brief gets the row size
       *
-      * returns the rows of the board
-      * @return integer value which denotesthe rows of the board
+      * returns the number of rows in the board
+      * @return integer value which denotes how many rows the board has
       */
     int getRowSize();
 
     /** \brief gets the column size
       *
-      * returns the columns of the board
-      * @return integer value which denotesthe columns of the board
+      * returns the number of columns in the board
+      * @return integer value which denotes how many columns the board has
       */
     int getColumnSize();
 
-    virtual ~Board();
-
-    /** \brief finds all pieces of a player
+    /** \brief finds all pieces for a given player
       *
-      * Loops through the board and finds all pieces for either player and puts there position
-      * in a vector and returns it.
-      * @param player integer parameter dentoing for which player to get the peaces.
-      * @return vector of pairs that have in them the position for each peace.
+      * Loops through the board and finds all pieces for either player and puts their position in a vector and returns it.
+      * @param player integer parameter denoting for which player to get the pieces.
+      * @return vector of pairs that have in them the position for each piece.
       */
     std::vector< std::pair<int,int> > getPieceForPlayer(int player);
 protected:
 private:
-    std::vector< std::vector< Piece > > board; /**< vector of vectors of pieces, has the size of row and column, it is the board */
+    std::vector< std::vector< Piece > > board; /**< vector of vectors of pieces,this represents the board */
     int row; /**< integer denoting how many rows there are on the board */
     int column; /**< integer denoting how many columns there are on the board */
 };

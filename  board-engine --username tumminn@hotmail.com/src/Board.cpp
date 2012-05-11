@@ -61,7 +61,3 @@ void Board::removePieceFromBoard(std::pair<int,int> position)
 {
     board[position.first][position.second] = Piece();
 }
-
-Board::~Board()
-{
-}

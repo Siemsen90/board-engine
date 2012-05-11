@@ -4,9 +4,9 @@
 #include <string>
 #include <cctype>
 
-/** \brief A class for handeling the pieces.
+/** \brief A class that represents pieces on our game board.
  *
- * A class for each piece that the board class uses for pieces on the board.
+ * A class for each piece that the board contains, each belonging to a single player.
  */
 class Piece
 {
@@ -14,13 +14,12 @@ public:
     /** \brief The piece constructor.
      *
      * Constructs a Piece with the given parameters
-     * @param name string argument that has a default value "."
-     * @param owner int argument that has a default value -1
+     * @param inputName string argument that has a default value "."
+     * @param inputOwner int argument that has a default value -1, indicating no ownership
      */
-    Piece(std::string name = ".", int owner = -1)
-        :m_name(name),m_owner(owner)
+    Piece(std::string inputName = ".", int inputOwner = -1)
+        : name(inputName), owner(inputOwner)
     {};
-    virtual ~Piece();
 
     /** \brief Getter for the owner variable.
      *
@@ -39,8 +38,8 @@ public:
 
 protected:
 private:
-    std::string m_name; /**< name of the piece, pawn, king etc. */
-    int m_owner; /**< owner of the piece, 0 for player 1 and 1 for player 2. */
+    std::string name; /**< name of the piece, pawn, king etc. */
+    int owner; /**< owner of the piece, 0 for player 1 and 1 for player 2. */
 };
 
 bool operator==(const Piece& lhs,const Piece& rhs);
