@@ -14,8 +14,6 @@ class BreakThrough:public Game
         int userDefinedEvaluation();
         void doExecuteMove(Move move, Board &currentBoard);
         bool isTerminalState(int &state);
-
-        virtual ~BreakThrough();
     protected:
     private:
 };
