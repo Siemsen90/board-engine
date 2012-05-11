@@ -24,7 +24,7 @@ void MiniMax::run(Game *game)
     }
 
     int bestValue = INT_MIN;
-    Move bestMove(0,0,0,0);
+    Move bestMove = moves[0];
 
     for(int index = 0; index < static_cast<int>(moves.size()); ++index)
     {
@@ -32,14 +32,18 @@ void MiniMax::run(Game *game)
 
         int checkValue = miniMax(depth-1,game);
 
+        //std::cout << checkValue << '\n';
+
         if(checkValue > bestValue)
         {
+
             bestValue = checkValue;
             bestMove = moves[index];
         }
         game->undoMove();
     }
 
+    std::cout << bestValue << '\n';
     std::cout << "\tmove " << bestMove << '\n';
     game->executeMove(bestMove);
 }

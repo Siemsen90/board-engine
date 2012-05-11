@@ -27,12 +27,14 @@ int Game::evaluate()
     int player1Pieces = currentBoard.getPieceForPlayer(0).size();
     int player2Pieces = currentBoard.getPieceForPlayer(1).size();
 
+    return 0;
+/*
     if(turn == 0)
     {
-        return player1Pieces-player2Pieces;
+        return player2Pieces-player1Pieces;
     }
 
-    return player2Pieces-player1Pieces;
+    return player2Pieces-player1Pieces;*/
 }
 
 void Game::initilizeBoard()
