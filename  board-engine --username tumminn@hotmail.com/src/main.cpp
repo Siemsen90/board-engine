@@ -42,23 +42,17 @@ bool checkTerminalState(Game *current)
 
 void play()
 {
-    //Ætti game að hafa nafn?
     Game *current = NULL;
     bool gameRunning = false;
 
     Game *breakthrough = new BreakThrough("Breakthrough");
     Game *shorterBreakthrough = new ShorterBreakThrough("ShorterBreakthrough");
-    /*std::map<int,string> listGames;
-    listGames[0] = "Breakthrough";
-    listGames[1] = "ShorterBreakthrough";*/
 
     MiniMax search;
 
     vector<Game*> gameList;
     gameList.push_back(breakthrough);
     gameList.push_back(shorterBreakthrough);
-
-
 
     cout << "Board-game \n" << "'list' to display the games list \n" << "'game n' instructs to play game number n \n"
     << " 'restart' restarts the game \n" << " 'legal' display legal moves \n"
@@ -67,9 +61,10 @@ void play()
     << "'evaluate' evaluates from the current board state \n" << "'go' computer makes a move\n"
     << "'level[random|easy|medium|hard]' choose dificulty level \n" << "'quit' quits the program \n";
     cout << "> ";
-    string word;
-    while ( cin >> word) {
 
+    string word;
+    while ( cin >> word)
+    {
         if(gameRunning == false && (word != "game" && word != "list" && word != "quit"))
         {
             cout << "You must run a game before using command " << word << endl;
@@ -114,7 +109,6 @@ void play()
         }
         else if (word == "legal")
         {
-
             vector<Move> moveList = current->legalMoves();
 
             for(int index = 0; index < static_cast<int>(moveList.size()); ++index)
