@@ -174,7 +174,32 @@ std::string BreakThrough::debugInfo()
 
 int BreakThrough::userDefinedEvaluation()
 {
-    return evaluate();
+    int numberOfPieces = evaluate();
+    int minimumDistance = 0;
+    std::vector< std::pair<int,int> > pieces = getCurrentBoard().getPieceForPlayer(getTurn());
+
+
+    for(int index = 0; index < static_cast<int>(pieces.size()); ++index)
+    {
+        int tmp = 0;
+
+        if(getTurn() == 1)
+        {
+            tmp = pieces[index].first;
+        }
+        else if(getTurn() == 0)
+        {
+            tmp = pieces[index].first;
+        }
+
+        // minimumDistance += tmp;
+        if(tmp > minimumDistance)
+        {
+            //std::cout << tmp;
+            minimumDistance = tmp;
+        }
+    }
+    return minimumDistance + numberOfPieces;
 }
 
 bool BreakThrough::isTerminalState(int &state)
